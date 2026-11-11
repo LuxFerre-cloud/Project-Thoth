@@ -1,0 +1,46 @@
+# Veda-G Advanced Documentation Example: Native Geometric Prime Number Generator
+# Targeted Field: Multi-Frequency Harmonic Sieve Array
+
+# Step 1: Establish the fundamental scanning frequency grid step
+SOURCE f_base = 100.0Hz;
+
+# Define the target calculation range boundaries (Normalized array parameters)
+# This allocates space within the 19-circle spatial memory matrix
+ARRAY SieveRange = GENERATE_MATRIX_SPACE(FLOWER_OF_LIFE_3D, MaxRadius = 100);
+
+# Step 2: Establish the Harmonic Filtration Logic
+BEGIN COMPILATION_CYCLE (Prime_Sieve_Core) {
+    
+    # Generate the base fractional harmonic waves (acting as the division grid)
+    # This automatically pulses the fractions 1/2, 1/3, 1/4, 1/5 into the system
+    CHORD BaseHarmonics = [0.50, 0.3333, 0.25, 0.20, 0.1667, 0.1428];
+    
+    # Map the fractional sieve waves onto the outer ring boundaries
+    # This sets up a permanent geometric standing wave barrier inside the ether channels
+    CONSTRUCT (BaseHarmonics) -> NODE[2..7];
+    
+    # Step 3: Sweep the target integers through the central processing core
+    # The scan loops through the frequency matrix from 1x base to 100x base
+    SCAN_SPECTRUM (SieveRange) WITH STEP = 1.0 {
+        
+        # Where the scanned integer frequency hits a fractional harmonic node,
+        # it undergoes immediate Phase Intersect Collision (Destructive Cancellation).
+        INTERACT_FIELD (CURRENT_FREQUENCY, BaseHarmonics) {
+            COLLISION_MODE = FRACTIONAL_MODULO;
+            TOLERANCE      = 0.0001nm;
+        }
+        
+        # Step 4: Isolate the unbroken frequencies
+        # Composite numbers completely flatten to 0.00W due to phase cancellation.
+        # Primes match no underlying fractional nodes, creating a sharp constructive echo peak.
+        IF EVALUATE_RESONANCE(Central_Node_1) > 0.85 {
+            
+            # Record the exact frequency multiplier value directly to output
+            CAPTURE_FREQUENCY_VALUE -> READOUT_STREAM;
+            
+            # Flash the internal visual ledger layer for confirmation
+            EMIT_COHERENT_BEAM (Central_Node_1) TO OPTICAL_BUS;
+        }
+    }
+}
+END COMPILATION_CYCLE;

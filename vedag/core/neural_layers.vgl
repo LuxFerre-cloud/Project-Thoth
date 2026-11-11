@@ -1,0 +1,83 @@
+# ===================================================================
+# Veda-G Library: neural_layers.vgl
+# Core Module for Token-Free, Hardware-Native Machine Learning Layers
+# Open-Source Project Thoth Release 1.4
+# ===================================================================
+
+LIBRARY MODULE NeuralLayers;
+
+# Import the core geometric and language toolkits
+IMPORT spatial_vectors.vgl;
+IMPORT natural_language.vgl;
+
+# Define the structure of a multi-dimensional Geometric Attention State
+STRUCTURE WaveAttention Layer {
+    QUERY_SPECTRUM:   ARRAY[1..6] OF SCALAR;
+    KEY_LATTICE:      ARRAY[1..6] OF SCALAR;
+    VALUE_RESONANCE:  SCALAR;
+}
+
+# ===================================================================
+# Function: EXECUTE_GEOMETRIC_ATTENTION
+# Purpose: Computes multi-head attention natively through wave 
+#          collisions across the 121 Vesica Piscis channels.
+# ===================================================================
+EXPORT FUNCTION ComputeAttention(SemanticWave inputQuery, SpatialWave targetKeys) -> WaveAttentionLayer {
+    
+    BEGIN_GEOMETRIC_OPERATION {
+        # Inject the query thought-waveform into the upper peripheral array portals
+        CONSTRUCT (inputQuery.HARMONIC_SPECTRUM) -> NODE[2..4];
+        
+        # Inject the structural tracking keys into the lower peripheral portals
+        CONSTRUCT (targetKeys.AXIS_COMPONENTS) -> NODE[5..7];
+        
+        # Force the input signals to cross and entangle inside the liquid-crystal water paths
+        # This executes immediate dot-product attention through constructive wave summation
+        COLLAPSE_FIELD (INTERSECTION_MAX) {
+            ALGORITHM      = TOPOLOGICAL_ATTENTION;
+            RESONANCE_BIAS = GOLDEN_RATIO_SCALED;
+        }
+        
+        # Measure the resulting constructive energy spike at the central processing node
+        SCALAR attentionWeight = EVALUATE_RESONANCE(Central_Node_1);
+        
+        # Package the resulting light pattern matrix into the structural output layer
+        WaveAttentionLayer attentionOutput;
+        attentionOutput.QUERY_SPECTRUM  = inputQuery.HARMONIC_SPECTRUM;
+        attentionOutput.KEY_LATTICE     = EXTRACT_LATTICE_ARRAY(Central_Node_1);
+        attentionOutput.VALUE_RESONANCE = attentionWeight;
+        
+        RETURN attentionOutput;
+    }
+    END_GEOMETRIC_OPERATION;
+}
+
+# ===================================================================
+# Function: GEOMETRIC_ACTIVATION_FILTER
+# Purpose: Applies a hardware-native non-linear activation function 
+#          (equivalent to ReLU/GELU) by utilizing physical channel limits.
+# ===================================================================
+EXPORT FUNCTION WaveActivation(SpatialWave inputSignal, SCALAR resonanceThreshold) -> SpatialWave {
+    
+    BEGIN_GEOMETRIC_OPERATION {
+        # Feed the signal wave through the primary processing vector
+        CONSTRUCT (inputSignal.AXIS_COMPONENTS) -> NODE[2..7];
+        
+        # The Exclusion Zone (EZ) liquid crystal channels have a native pressure threshold.
+        # If the wave intensity is below the threshold, the channel remains non-conductive (0).
+        # If it passes the threshold, the water molecules realign, allowing full light transmission.
+        COLLAPSE_FIELD (INTERSECTION_MAX) {
+            ALGORITHM = CRYSTALLINE_THRESHOLD;
+            LIMIT_CAP = resonanceThreshold;
+        }
+        
+        SpatialWave activatedSignal;
+        activatedSignal.AXIS_COMPONENTS = EXTRACT_LATTICE_ARRAY(Central_Node_1);
+        activatedSignal.COHERENCE_INDEX = EVALUATE_RESONANCE(Central_Node_1);
+        
+        RETURN activatedSignal;
+    }
+    END_GEOMETRIC_OPERATION;
+}
+
+CLOSE MODULE NeuralLayers;

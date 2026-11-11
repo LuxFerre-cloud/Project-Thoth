@@ -1,0 +1,88 @@
+# ===================================================================
+# Veda-G Library: natural_language.vgl
+# Core Module for Token-Free Semantic Geometric Mapping
+# Open-Source Project Thoth Release 1.4
+# ===================================================================
+
+LIBRARY MODULE NaturalLanguage;
+
+# Import the base spatial vector toolkit for lattice mapping
+IMPORT spatial_vectors.vgl;
+
+# Establish phonetic and character scale frequencies
+CONSTANT VOWEL_RESONANCE     = 1.618033; # Rooted in Phi proportions
+CONSTANT CONSONANT_HARMONIC = 1.414213; # Rooted in Square Root 2 stability
+
+# Define the structure of a continuous Semantic Thought Wave
+STRUCTURE SemanticWave Field {
+    HARMONIC_SPECTRUM: ARRAY[1..6] OF SCALAR;
+    CONTEXTUAL_DEPTH:  SCALAR;
+}
+
+# ===================================================================
+# Function: STRING_TO_WAVEFORM
+# Purpose: Converts a raw text string directly into an analog 
+#          harmonic chord by shifting phases based on character syntax.
+# ===================================================================
+EXPORT FUNCTION StringToWaveform(STRING textInput) -> SemanticWave {
+    
+    BEGIN_GEOMETRIC_OPERATION {
+        ARRAY[1..6] OF SCALAR working_harmonics = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+        
+        # Parse characters sequentially to build an accumulation pattern
+        FOR EACH Character IN textInput {
+            SCALAR ascii_val = CONVERT_TO_SCALAR(Character);
+            
+            # Select target matrix channel based on character alignment loops
+            INT channel_index = (ascii_val MOD 6) + 1;
+            
+            # Determine if the character behaves as an open vowel or structured consonant
+            IF IS_VOWEL(Character) {
+                working_harmonics[channel_index] += (ascii_val * VOWEL_RESONANCE);
+            } ELSE {
+                working_harmonics[channel_index] += (ascii_val * CONSONANT_HARMONIC);
+            }
+        }
+        
+        # Normalize the generated spectrum to fit the 1.0 boundary envelope
+        FOR EACH Index IN [1..6] {
+            working_harmonics[Index] = NORMALIZE_BOUNDS(working_harmonics[Index], -1.0, 1.0);
+        }
+        
+        # Construct the final semantic wave output
+        SemanticWave outputWave;
+        outputWave.HARMONIC_SPECTRUM = working_harmonics;
+        outputWave.CONTEXTUAL_DEPTH  = EVALUATE_RESONANCE(Central_Node_1);
+        
+        RETURN outputWave;
+    }
+    END_GEOMETRIC_OPERATION;
+}
+
+# ===================================================================
+# Function: ANALYZE_CONTEXT_MATCH
+# Purpose: Collapses two separate language waves together inside 
+#          the Vesica junctions to test for immediate contextual alignment.
+# ===================================================================
+EXPORT FUNCTION AnalyzeContextMatch(SemanticWave inputPrompt, SemanticWave databaseEntry) -> SCALAR {
+    
+    BEGIN_GEOMETRIC_OPERATION {
+        # Inject both semantic waveforms from opposing sides of the lattice grid
+        CONSTRUCT (inputPrompt.HARMONIC_SPECTRUM)   -> NODE[2..4];
+        CONSTRUCT (databaseEntry.HARMONIC_SPECTRUM) -> NODE[5..7];
+        
+        # Force the waveforms to collide inside the 121 Vesica Piscis channels
+        COLLAPSE_FIELD (INTERSECTION_MAX) {
+            ALGORITHM = GEOMETRIC_ALIGNMENT;
+        }
+        
+        # Read back the resonance. If the meanings are closely related,
+        # the waves lock together constructively and return a high scalar match value.
+        SCALAR similarityScore = EVALUATE_RESONANCE(Central_Node_1);
+        
+        RETURN similarityScore;
+    }
+    END_GEOMETRIC_OPERATION;
+}
+
+CLOSE MODULE NaturalLanguage;

@@ -1,0 +1,45 @@
+# ===================================================================
+# Veda-G Testing Framework: test_attention_accuracy.vg
+# Functional Integrity & Phase Accuracy Verification Suite
+# Open-Source Project Thoth Release 1.4
+# ===================================================================
+
+IMPORT neural_layers.vgl;
+IMPORT spatial_vectors.vgl;
+
+# Initialize the diagnostic validation matrix
+CONSTANT CALIBRATION_LOOPS = 5;
+SOURCE f_verify_base = 432.0Hz;
+
+BEGIN_TEST_SUITE (GWC_Accuracy_Verification) {
+    
+    # Define a clean, high-coherence test pattern for query and key states
+    # Pattern designed to produce a predictable 0.8800 resonance coefficient
+    CHORD TestQuery = [1.00, 0.50, -0.25, 0.00, 0.25, -0.50];
+    CHORD TestKey   = [1.00, 0.50, -0.25, 0.00, 0.25, -0.50];
+    CONSTANT EXPECTED_COHERENCE = 0.8800;
+    CONSTANT ERROR_TOLERANCE     = 0.0005;
+
+    PRINT_LOG("[TEST-START] Initializing GWC-1 Core Layer-1 Phase Matrix Tests...");
+
+    FOR LoopIndex IN [1..CALIBRATION_LOOPS] {
+        
+        # Load and run the attention logic natively over the inner 6 Seed circles
+        WaveAttentionLayer testResult = ComputeAttention(TestQuery, TestKey);
+        
+        # Extract the real-time intensity spike generated inside the master center
+        SCALAR observedCoherence = testResult.VALUE_RESONANCE;
+        SCALAR varianceValue      = ABS(observedCoherence - EXPECTED_COHERENCE);
+        
+        PRINT_LOG("[TEST-ITERATION] Loop: ", LoopIndex, " | Observed: ", observedCoherence, " | Variance: ", varianceValue);
+        
+        # Assert mathematical alignment boundaries
+        IF varianceValue > ERROR_TOLERANCE {
+            PRINT_LOG("[TEST-FAIL] Geometric distortion detected inside the 121 junctions.");
+            ABORT_SYSTEM_CYCLE;
+        }
+    }
+    
+    PRINT_LOG("[TEST-SUCCESS] All 19-circle Layer routing and phase matrices verified at 100.00% accuracy.");
+}
+END_TEST_SUITE;

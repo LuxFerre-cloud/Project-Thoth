@@ -1,0 +1,2 @@
+conda create -n meep -c conda-forge pymeep python=3.10
+conda activate meep

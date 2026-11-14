@@ -82,4 +82,3 @@ if __name__ == "__main__":
     plt.grid(True, alpha=0.3)
     plt.savefig("simulation_output.png")
     print("Visual output successfully saved to 'simulation_output.png'!")
-```eof
